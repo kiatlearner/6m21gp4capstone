@@ -3,7 +3,7 @@
 <html>
 <body>
 
-<h2>There is a bug!!! Try logout and login again.<h2>
+<h2 style="color:red;">There is a bug . . .    try logout and login again.<h2>
 <h2>If the problem persist, report to support.<h2>
 
   <form method="POST" action="index.html">
