@@ -19,5 +19,4 @@ CMD ["apache2ctl", "-D", "FOREGROUND"]
 #copy git-repo codes to WORKDIR
 WORKDIR /var/www/html
 COPY index.html .
-COPY *.php . 
-
+COPY *.php /var/www/html/
