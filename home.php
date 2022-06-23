@@ -1,4 +1,4 @@
-<h1>Welcome to EMR System built by Group 4 on 23 June 2022</h1>
+<h1>Welcome to Simple EHR</h1>
 
 <html>
 <body>

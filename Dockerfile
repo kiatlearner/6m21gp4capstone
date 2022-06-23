@@ -4,8 +4,8 @@ FROM debian:bullseye-slim
 
 RUN apt update
 RUN apt upgrade -y
-RUN apt install curl -y
-RUN apt install nano -y
+# RUN apt install curl -y
+# RUN apt install nano -y
 RUN apt install apache2 -y
 RUN apt install php -y
 RUN apt install php-mysqli -y
