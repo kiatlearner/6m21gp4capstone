@@ -16,5 +16,8 @@ RUN sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
 # If run as BACKGROUND, the container will run and shutdown
 CMD ["apache2ctl", "-D", "FOREGROUND"]
 
-#change to PWD
+#copy git-repo codes to WORKDIR
 WORKDIR /var/www/html
+COPY index.html .
+COPY *.php . 
+
