@@ -1,0 +1,60 @@
+# [START cloudbuild]
+steps:
+
+# This step builds the container image.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/emr-ar/emr-image:$SHORT_SHA'
+  - '.'
+
+# This step pushes the image to Artifact Registry
+# The PROJECT_ID and SHORT_SHA variables are automatically
+# replaced by Cloud Build.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Push
+  args:
+  - 'push'
+  - 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/emr-ar/emr-image:$SHORT_SHA'
+# [END cloudbuild]
+
+# [START cloudbuild-trigger-cd]
+# This step clones the deployment-manifest repository
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Clone deployment-manifest repository
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    gcloud source repos clone deployment-manifest && \
+    cd deployment-manifest && \
+    git checkout candidate && \
+    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
+
+# This step generates the new manifest
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Generate manifest
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" deploymentwithproxy.yaml.tpl | \
+     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > deployment-manifest/deploymentwithproxy.yaml
+
+# This step pushes the manifest back to deployment-manifest
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Push manifest
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    set -x && \
+    cd deployment-manifest && \
+    git add kubernetes.yaml && \
+    git commit -m "Deploying image asia-southeast1-docker.pkg.dev/$PROJECT_ID/emr-ar/emr-image:${SHORT_SHA}
+    Built from commit ${COMMIT_SHA} of repository github_kiatlearner_emr
+    Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
+    git push origin candidate
+
