@@ -51,9 +51,8 @@ steps:
   - |
     set -x && \
     cd deployment-manifest && \
-    git add kubernetes.yaml && \
+    git add deploymentwithproxy.yaml && \
     git commit -m "Deploying image asia-southeast1-docker.pkg.dev/$PROJECT_ID/emr-ar/emr-image:${SHORT_SHA}
     Built from commit ${COMMIT_SHA} of repository github_kiatlearner_emr
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
     git push origin candidate
-
