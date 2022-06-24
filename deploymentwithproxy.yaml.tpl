@@ -26,7 +26,7 @@ spec:
       - name: emr-app
         # Replace <LOCATION> with your Artifact Registry location (e.g., us-central1).
         # Replace <YOUR_PROJECT_ID> with your project ID.
-        image: asia-southeast1-docker.pkg.dev/glassy-sky-352905/emr-ar/emr-image:COMMIT_SHA
+        image: asia-southeast1-docker.pkg.dev/GOOGLE_CLOUD_PROJECT/emr-ar/emr-image:COMMIT_SHA
         # This app listens on port 8080 for web traffic by default.
         ports:
         - containerPort: 8080
