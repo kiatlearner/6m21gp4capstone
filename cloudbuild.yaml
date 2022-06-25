@@ -1,7 +1,7 @@
 # [START cloudbuild]
 steps:
 # This step runs the test on the app.
-- id: Test
+- id: 'Test'
 
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
