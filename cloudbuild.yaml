@@ -1,5 +1,13 @@
 # [START cloudbuild]
 steps:
+# This step pretend a test on the app.
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Test
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - 'echo'
+
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
   id: Build
