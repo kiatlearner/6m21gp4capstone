@@ -14,6 +14,6 @@ echo "Connected successfully";
 ?>
 
 <br><br>
-<form method="POST" action="index.html">
+<form method="POST" action="home.php">
   <input type="submit"/ value="Home">
 </form>
