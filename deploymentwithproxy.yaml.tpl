@@ -78,14 +78,29 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: emr-app-svc
+  name: neg-emr-svc
   annotations:
-    cloud.google.com/neg: '{"exposed_ports": {"80":{}}}' # auto generate name, else pu after 80:{["name": "NEG_EMR"]}
+    cloud.google.com/neg: '{"ingress": true}' # Creates a NEG after an Ingress is created
 spec:
   type: ClusterIP
   selector:
     run: emr-app # Selects Pods labelled run: emr-app
   ports:
-  - port: 80
+  - name: http
+    port: 80
     protocol: TCP
     targetPort: 8080 # apache2 listening on 8080
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: neg-emr-ing
+spec:
+  defaultBackend:
+    service:
+      name: neg-emr-svc # Name of the Service targeted by the Ingress
+      port:
+        number: 80 # Should match the port used by the Service
+
